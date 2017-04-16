@@ -43,6 +43,16 @@ class SignupForm extends Model
     }
 
     /**
+     * @return array customized attribute labels
+     */
+    public function attributeLabels()
+    {
+        return [
+            'dob' => 'Date of birth',
+        ];
+    }
+
+    /**
      * Signs user up.
      *
      * @return User|null the saved model or null if saving fails

@@ -25,8 +25,10 @@ class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+    const ROLE_USER = 'user';
+    const ROLE_ADMIN = 'admin';
 
-
+    // public static $roles = [ROLE_USER=>"User",ROLE_ADMIN=>"Administrator"];
     /**
      * @inheritdoc
      */
@@ -44,7 +46,8 @@ class User extends ActiveRecord implements IdentityInterface
             'auth_key',
             'password_hash',
             'password_reset_token',
-            'email', 
+            'email',
+            'role', 
             'name',
             'dob',
             'country',
@@ -73,6 +76,8 @@ class User extends ActiveRecord implements IdentityInterface
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['role', 'default', 'value' => self::ROLE_USER],
+            ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
         ];
     }
 
@@ -81,7 +86,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['_id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne($id);
     }
 
     /**
@@ -143,7 +148,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function getId()
     {
-        return $this->getPrimaryKey();
+        // return $this->getPrimaryKey();
+        return (string)$this->getPrimaryKey();
     }
 
     /**
