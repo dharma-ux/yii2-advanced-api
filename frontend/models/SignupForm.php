@@ -12,7 +12,10 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
-
+    public $name;
+    public $dob;
+    public $country;
+    public $profession;
 
     /**
      * @inheritdoc
@@ -33,6 +36,9 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+
+            //  the name,   dob,  country and profession  are required
+            [['name',   'dob',    'country',  'profession'],    'required'],
         ];
     }
 
@@ -52,6 +58,10 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+        $user->name = $this->name;
+        $user->dob = $this->dob;
+        $user->country = $this->country;
+        $user->profession = $this->profession;
         
         return $user->save() ? $user : null;
     }

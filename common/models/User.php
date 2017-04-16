@@ -4,7 +4,7 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveRecord;
+use yii\mongodb\ActiveRecord;
 use yii\web\IdentityInterface;
 
 /**
@@ -30,9 +30,29 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public static function collectionName() {
+        return ['yii2db','User'];
+    }
+    /**
+     * set model attributes
+     */
+    public function attributes()
     {
-        return '{{%user}}';
+        return [
+            '_id',   
+            'username',
+            'auth_key',
+            'password_hash',
+            'password_reset_token',
+            'email', 
+            'name',
+            'dob',
+            'country',
+            'profession',
+            'status',
+            'created_at',
+            'updated_at'
+        ];
     }
 
     /**
@@ -61,7 +81,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+        return static::findOne(['_id' => $id, 'status' => self::STATUS_ACTIVE]);
     }
 
     /**

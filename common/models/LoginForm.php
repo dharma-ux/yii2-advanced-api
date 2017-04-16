@@ -71,6 +71,8 @@ class LoginForm extends Model
     {
         if ($this->_user === null) {
             $this->_user = User::findByUsername($this->username);
+
+            // echo "<pre>";print_r($this->_user);exit;
         }
 
         return $this->_user;
