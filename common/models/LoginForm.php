@@ -32,6 +32,16 @@ class LoginForm extends Model
     }
 
     /**
+     * @return array customized attribute labels
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Email',
+        ];
+    }
+
+    /**
      * Validates the password.
      * This method serves as the inline validation for password.
      *
@@ -70,7 +80,8 @@ class LoginForm extends Model
     protected function getUser()
     {
         if ($this->_user === null) {
-            $this->_user = User::findByUsername($this->username);
+            // $this->_user = User::findByUsername($this->username);
+            $this->_user = User::findUserByEmail($this->username);
 
             // echo "<pre>";print_r($this->_user);exit;
         }

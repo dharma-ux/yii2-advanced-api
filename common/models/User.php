@@ -42,7 +42,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             '_id',   
-            'username',
+            // 'username',
             'auth_key',
             'password_hash',
             'password_reset_token',
@@ -211,5 +211,16 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    /**
+     * Finds user by email
+     *
+     * @param string $email
+     * @return static|null
+     */
+    public static function findUserByEmail($email)
+    {
+        return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
     }
 }
