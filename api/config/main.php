@@ -42,7 +42,8 @@ return [
                         '{id}' => '<id:\\w+>'
                     ]
                     
-                ]
+                ],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/auth'],
             ],        
         ]
     ],

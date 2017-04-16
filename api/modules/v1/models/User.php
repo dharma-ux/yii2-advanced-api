@@ -1,11 +1,14 @@
 <?php
 namespace api\modules\v1\models;
-use \yii\mongodb\ActiveRecord;
+use Yii;
+use yii\mongodb\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\web\IdentityInterface;
+use yii\base\NotSupportedException;
 /**
  * User Model
  */
-class User extends ActiveRecord
+class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
@@ -60,6 +63,44 @@ class User extends ActiveRecord
             ['role', 'default', 'value' => self::ROLE_USER],
             ['role', 'in', 'range' => [self::ROLE_USER, self::ROLE_ADMIN]],
         ];
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        return static::findOne(['access_token' => $token]);
+    }   
+
+    /**
+     * @inheritdoc
+     */
+    public static function findIdentity($id)
+    {
+        return static::findOne($id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        // return $this->getPrimaryKey();
+        return (string)$this->getPrimaryKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
     }
 
 }

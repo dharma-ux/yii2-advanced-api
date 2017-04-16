@@ -2,7 +2,14 @@
 
 namespace api\modules\v1\controllers;
 
+use common\models\User;
+use Yii;
+use api\modules\v1\components\BaseController;
+
 use yii\rest\ActiveController;
+
+use yii\filters\ContentNegotiator;
+use yii\web\Response;
 
 /**
  * 	User Controller API
@@ -26,20 +33,61 @@ class UserController extends ActiveController
     public $modelClass = 'api\modules\v1\models\User';    
 
 	/**
-	 * @inheritdoc
-	 */
-	public function behaviors()
-	{
-		return [
-		    [
-		        'class' => \yii\filters\ContentNegotiator::className(),
-		        'only' => ['index', 'view'],
-		        'formats' => [
-		            'application/json' => \yii\web\Response::FORMAT_JSON,
-		        ],
-		    ],
-		];
-	}
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        /*$behaviors['access'] = [
+            'class' => 'yii\filters\AccessControl',
+            'rules' => [
+                [
+                    'allow' => true,
+                    'actions' => ['options'],
+                    'roles' => ['?']
+                ],
+                [
+                    'allow' => true,
+                    'actions' => ['index', 'view', 'me'],
+                    'roles' => ['@']
+                ],
+                [
+                    'allow' => true,
+                    'actions' => ['update', 'create', 'delete'],
+                    'roles' => ['admin']
+                ]
+            ]
+        ];*/
+        $behaviors['contentNegotiator'] = [
+            'class' => ContentNegotiator::className(),
+            'formats' => [
+                'application/json' => Response::FORMAT_JSON,
+            ],
+        ];
+
+        $behaviors['verbFilter']['actions']['me'] = [
+            'GET',
+            'HEAD'
+        ];
+        return $behaviors;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+        return $actions;
+    }
+
+    /**
+     * @return array|null|\app\models\User
+     */
+    public function actionMe()
+    {
+        return User::find()->where(['id' => Yii::$app->user->id])->one();
+    }
 	
 }
 
