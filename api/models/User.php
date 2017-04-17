@@ -1,5 +1,5 @@
 <?php
-namespace common\models;
+namespace api\models;
 
 use Yii;
 use yii\base\NotSupportedException;
@@ -44,6 +44,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             '_id',   
+            // 'username',
             'auth_key',
             'password_hash',
             'password_reset_token',
@@ -96,7 +97,8 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        // throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
+        return static::findOne(['access_token' => $token]);
     }
 
     /**
@@ -224,10 +226,5 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findUserByEmail($email)
     {
         return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
-    }
-
-    public function setAccessToken($access_token)
-    {
-        $this->access_token = $access_token;
     }
 }
