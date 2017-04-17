@@ -56,7 +56,10 @@ return [
             'rules' => [
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['user', 'site'],
+                    'controller' => ['user', 'site'],   
+                    'tokens' => [
+                        '{id}' => '<id:\\w+>'
+                    ],
                     'extraPatterns' => [
                         'POST,OPTIONS search' => 'search',
                         'GET site/error'=>'error',
