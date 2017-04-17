@@ -14,7 +14,7 @@ return [
     'controllerNamespace' => 'api\controllers',
     'components' => [
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'api\models\User',
             'enableAutoLogin' => false,
         ],
         'log' => [

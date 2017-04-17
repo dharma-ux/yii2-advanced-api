@@ -39,11 +39,11 @@ class UserController extends ApiController
         $behaviors = parent::behaviors();
         $action = Yii::$app->requestedAction->id;
         $guestActions = [];
-        // if (!in_array($action, $guestActions)&&(Yii::$app->request->method!='OPTIONS')) {
-        //     $behaviors['authenticator'] = [
-        //         'class' => HttpBearerAuth::className(),
-        //     ];
-        // }
+        if (!in_array($action, $guestActions)&&(Yii::$app->request->method!='OPTIONS')) {
+            $behaviors['authenticator'] = [
+                'class' => HttpBearerAuth::className(),
+            ];
+        }
         $behaviors['contentNegotiator'] = [
             'class' => ContentNegotiator::className(),
             'formats' => [
