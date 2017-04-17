@@ -20,7 +20,9 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
                 <?= $form->field($model, 'name') ?>
-                <?= $form->field($model, 'dob') ?>
+                <?= $form->field($model, 'dob')->widget(\yii\jui\DatePicker::classname(), [
+    'dateFormat' => 'yyyy-MM-dd',
+]) ?>
                 <?= $form->field($model, 'country') ?>
                 <?= $form->field($model, 'profession') ?>
                 

@@ -39,6 +39,7 @@ class SignupForm extends Model
 
             //  the name,   dob,  country and profession  are required
             [['name',   'dob',    'country',  'profession'],    'required'],
+            [['dob'], 'date', 'format' => 'php:Y-m-d']
         ];
     }
 
