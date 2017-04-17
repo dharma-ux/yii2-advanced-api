@@ -3,7 +3,7 @@ namespace api\controllers;
 
 use Yii;
 use api\components\ApiController;
-// use common\models\UserSearch;
+
 use yii\filters\auth\HttpBearerAuth;
 use yii\web\ForbiddenHttpException;
 

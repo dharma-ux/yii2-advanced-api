@@ -23,6 +23,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    // Use the trait in your User model
+    use \msheng\JWT\UserTrait;
+
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     const ROLE_USER = 'user';
@@ -52,6 +55,7 @@ class User extends ActiveRecord implements IdentityInterface
             'country',
             'profession',
             'status',
+            'access_token',
             'created_at',
             'updated_at'
         ];
@@ -94,7 +98,7 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findIdentityByAccessToken($token, $type = null)
     {
         // throw new NotSupportedException('"findIdentityByAccessToken" is not implemented.');
-        return static::findOne(['auth_key' => $token]);
+        return static::findOne(['access_token' => $token]);
     }
 
     /**

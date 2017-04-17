@@ -73,6 +73,11 @@ class SignupForm extends Model
         $user->country = $this->country;
         $user->profession = $this->profession;
         
+        // generate jwt token key
+        $payload = array('name'=>$this->name,'email'=>$this->email);
+        $token = $user->getJwt();
+        $user->setAccessToken($token);
+
         return $user->save() ? $user : null;
     }
 }

@@ -23,6 +23,9 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    // Use the trait in your User model
+    use \msheng\JWT\UserTrait;
+
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
     const ROLE_USER = 'user';
@@ -41,7 +44,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             '_id',   
-            // 'username',
             'auth_key',
             'password_hash',
             'password_reset_token',
@@ -52,6 +54,7 @@ class User extends ActiveRecord implements IdentityInterface
             'country',
             'profession',
             'status',
+            'access_token',
             'created_at',
             'updated_at'
         ];
@@ -221,5 +224,10 @@ class User extends ActiveRecord implements IdentityInterface
     public static function findUserByEmail($email)
     {
         return static::findOne(['email' => $email, 'status' => self::STATUS_ACTIVE]);
+    }
+
+    public function setAccessToken($access_token)
+    {
+        $this->access_token = $access_token;
     }
 }
